@@ -30,7 +30,7 @@ public class MainActivity extends Activity implements LocationListener {
 		// TODO 自動生成されたメソッド・スタブ
 		super.onResume();
 
-		mMapView = new MapView(this,"PTdhZ1hERlB4QU01ViZzPWNvbnN1bWVyc2VjcmV0Jng9Mjgdj0zaiZpPTdhZ1hERlB4QU01ViZzPWNvbnN1bWVyc2VjcmV0Jng9Mjg-");
+		mMapView = new MapView(this,"dj0zaiZpPTdhZ1hERlB4QU01ViZzPWNvbnN1bWVyc2VjcmV0Jng9Mjgdj0zaiZpPTdhZ1hERlB4QU01ViZzPWNvbnN1bWVyc2VjcmV0Jng9Mjg-");
 		mMapView.setBuiltInZoomControls(true);
 		mMapView.setScalebar(true);
 
@@ -66,11 +66,15 @@ public class MainActivity extends Activity implements LocationListener {
 		int latitude = (int)(lat * 1000000);
 
 		double lon = location.getLongitude();
-		int longitude = (int)(lon * 100000);
+		int longitude = (int)(lon * 1000000);
 
 		if(latitude/1000 != this.lastLatitude/1000 || longitude/1000 != this.lastLongitude/1000) {
+			GeoPoint gp = new GeoPoint(latitude, longitude);
+			MapController c = mMapView.getMapController();
+			c.setCenter(gp);
 
-
+			this.lastLatitude = latitude;
+			this.lastLongitude = longitude;
 
 
 
