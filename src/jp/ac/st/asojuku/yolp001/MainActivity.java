@@ -3,6 +3,12 @@ package jp.ac.st.asojuku.yolp001;
 import jp.co.yahoo.android.maps.GeoPoint;
 import jp.co.yahoo.android.maps.MapController;
 import jp.co.yahoo.android.maps.MapView;
+import jp.co.yahoo.android.maps.navi.NaviController;
+import jp.co.yahoo.android.maps.navi.NaviController.NaviControllerListener;
+import jp.co.yahoo.android.maps.routing.RouteOverlay;
+import jp.co.yahoo.android.maps.routing.RouteOverlay.RouteOverlayListener;
+import jp.co.yahoo.android.maps.weather.WeatherOverlay;
+import jp.co.yahoo.android.maps.weather.WeatherOverlay.WeatherOverlayListener;
 import android.app.Activity;
 import android.content.Context;
 import android.location.Criteria;
@@ -12,7 +18,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
 
-public class MainActivity extends Activity implements LocationListener {
+public class MainActivity extends Activity implements LocationListener, WeatherOverlayListener, NaviControllerListener, RouteOverlayListener{
 
 
 	LocationManager mLocationManager = null;
@@ -23,6 +29,7 @@ public class MainActivity extends Activity implements LocationListener {
 
 	int lastLongitude = 0;
 
+	WeatherOverlay mWeatherOverlay = null;
 
 
 	@Override
@@ -30,7 +37,7 @@ public class MainActivity extends Activity implements LocationListener {
 		// TODO 自動生成されたメソッド・スタブ
 		super.onResume();
 
-		mMapView = new MapView(this,"dj0zaiZpPTdhZ1hERlB4QU01ViZzPWNvbnN1bWVyc2VjcmV0Jng9Mjgdj0zaiZpPTdhZ1hERlB4QU01ViZzPWNvbnN1bWVyc2VjcmV0Jng9Mjg-");
+		mMapView = new MapView(this,"dj0zaiZpPTdhZ1hERlB4QU01ViZzPWNvbnN1bWVyc2VjcmV0Jng9Mjg-");
 		mMapView.setBuiltInZoomControls(true);
 		mMapView.setScalebar(true);
 
@@ -56,7 +63,19 @@ public class MainActivity extends Activity implements LocationListener {
 		String provider = mLocationManager.getBestProvider(criteria, true);
 
 		mLocationManager.requestLocationUpdates(provider, 0, 0, this);
-	}
+
+		mWeatherOverlay = new WeatherOverlay(this);
+
+		mWeatherOverlay.setWeatherOverlayListener(this);
+
+		mWeatherOverlay.startAutoUpdate(1);
+
+		mMapView.getOverlays().add(mWeatherOverlay);
+
+
+
+		}
+
 
 	@Override
 	public void onLocationChanged(Location location) {
@@ -89,6 +108,30 @@ public class MainActivity extends Activity implements LocationListener {
 	}
 
 	@Override
+	public boolean errorRouteSearch(RouteOverlay arg0, int arg1) {
+		// TODO 自動生成されたメソッド・スタブ
+		return false;
+	}
+
+	@Override
+	public boolean finishRouteSearch(RouteOverlay arg0) {
+		// TODO 自動生成されたメソッド・スタブ
+		return false;
+	}
+
+	@Override
+	public void errorUpdateWeather(WeatherOverlay arg0, int arg1) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+	@Override
+	public void finishUpdateWeather(WeatherOverlay arg0) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+	@Override
 	public void onProviderEnabled(String provider) {
 		// TODO 自動生成されたメソッド・スタブ
 
@@ -111,6 +154,38 @@ public class MainActivity extends Activity implements LocationListener {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+
+	@Override
+	public boolean onGoal(NaviController arg0) {
+		// TODO 自動生成されたメソッド・スタブ
+		return false;
+	}
+
+	@Override
+	public boolean onLocationAccuracyBad(NaviController arg0) {
+		// TODO 自動生成されたメソッド・スタブ
+		return false;
+	}
+
+	@Override
+	public boolean onLocationChanged(NaviController arg0) {
+		// TODO 自動生成されたメソッド・スタブ
+		return false;
+	}
+
+
+
+	@Override
+	public boolean onRouteOut(NaviController arg0) {
+		// TODO 自動生成されたメソッド・スタブ
+		return false;
+	}
+
+	@Override
+	public boolean onLocationTimeOver(NaviController arg0) {
+		// TODO 自動生成されたメソッド・スタブ
+		return false;
 	}
 
 }
